@@ -77,7 +77,6 @@ const styles = {
   },
 };
 
-// 📁 Folder icon
 const FolderIcon = () => (
   <svg style={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -85,7 +84,6 @@ const FolderIcon = () => (
   </svg>
 );
 
-// 📄 File icon
 const FileIcon = () => (
   <svg style={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor"
     strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -94,13 +92,13 @@ const FileIcon = () => (
   </svg>
 );
 
-// 🌳 Recursive TreeNode
+//  Recursive TreeNode
 const TreeNode = ({ node, treeData, setTreeData }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isDropping, setIsDropping] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // ✅ Helper functions
+  // Helper functions
   const removeNode = (nodes, nodeId) =>
     nodes.reduce((acc, current) => {
       if (current.id === nodeId) return acc;
@@ -143,7 +141,7 @@ const TreeNode = ({ node, treeData, setTreeData }) => {
     );
   };
 
-  // 🏗 Drag Handlers
+  // Drag Handlers
   const handleDragStart = (e) => {
     e.stopPropagation();
     e.dataTransfer.setData("nodeId", node.id);
@@ -187,7 +185,7 @@ const TreeNode = ({ node, treeData, setTreeData }) => {
     }
   };
 
-  // 🗑 Delete Node
+  // Delete Node
   const handleDelete = (id) => {
     if (window.confirm(`Are you sure you want to delete "${node.label}"?`)) {
       const updatedTree = removeNode(treeData, id);
@@ -215,7 +213,6 @@ const TreeNode = ({ node, treeData, setTreeData }) => {
         {node.type === "folder" ? <FolderIcon /> : <FileIcon />}
         <span style={styles.label}>{node.label}</span>
 
-        {/* 🗑 Delete Button */}
         <button
           style={styles.deleteButton}
           onClick={(e) => {
@@ -273,7 +270,7 @@ const App = () => {
     },
   ]);
 
-  // ➕ Add File (✅ FIXED: No duplicates)
+  // Add File 
   const addFile = () => {
     const name = prompt("Enter file name:");
     if (!name) return;
@@ -297,7 +294,7 @@ const App = () => {
     );
   };
 
-  // 📁 Add Folder (✅ FIXED: No duplicates)
+  //Add Folder
   const addFolder = () => {
     const name = prompt("Enter folder name:");
     if (!name) return;
@@ -327,13 +324,11 @@ const App = () => {
       <div style={styles.treeWrapper}>
         <h1 style={styles.header}>📂 My Documents</h1>
 
-        {/* ➕ Toolbar */}
+        
         <div style={styles.toolbar}>
           <button style={styles.button} onClick={addFile}>➕ Add File</button>
           <button style={styles.button} onClick={addFolder}>📁 Add Folder</button>
         </div>
-
-        {/* Tree Rendering */}
         {treeData.map((node) => (
           <TreeNode
             key={node.id}
