@@ -273,35 +273,53 @@ const App = () => {
     },
   ]);
 
-  // ➕ Add File
+  // ➕ Add File (✅ FIXED: No duplicates)
   const addFile = () => {
     const name = prompt("Enter file name:");
     if (!name) return;
-    setTreeData((prev) => {
-      const newTree = [...prev];
-      newTree[0].children.push({
-        id: Date.now().toString(),
-        label: name,
-        type: "file",
-      });
-      return newTree;
-    });
+
+    setTreeData((prev) =>
+      prev.map((node, index) =>
+        index === 0
+          ? {
+              ...node,
+              children: [
+                ...node.children,
+                {
+                  id: Date.now().toString(),
+                  label: name,
+                  type: "file",
+                },
+              ],
+            }
+          : node
+      )
+    );
   };
 
-  // 📁 Add Folder
+  // 📁 Add Folder (✅ FIXED: No duplicates)
   const addFolder = () => {
     const name = prompt("Enter folder name:");
     if (!name) return;
-    setTreeData((prev) => {
-      const newTree = [...prev];
-      newTree[0].children.push({
-        id: Date.now().toString(),
-        label: name,
-        type: "folder",
-        children: [],
-      });
-      return newTree;
-    });
+
+    setTreeData((prev) =>
+      prev.map((node, index) =>
+        index === 0
+          ? {
+              ...node,
+              children: [
+                ...node.children,
+                {
+                  id: Date.now().toString(),
+                  label: name,
+                  type: "folder",
+                  children: [],
+                },
+              ],
+            }
+          : node
+      )
+    );
   };
 
   return (
