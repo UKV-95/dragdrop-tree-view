@@ -23,6 +23,21 @@ const styles = {
     marginBottom: 16,
     textAlign: "center",
   },
+  toolbar: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+    marginBottom: "20px",
+  },
+  button: {
+    padding: "8px 12px",
+    fontSize: 14,
+    border: "1px solid #ddd",
+    borderRadius: 8,
+    backgroundColor: "#f8f9fa",
+    cursor: "pointer",
+    transition: "0.2s",
+  },
   node: {
     display: "flex",
     alignItems: "center",
@@ -208,7 +223,7 @@ const TreeNode = ({ node, treeData, setTreeData }) => {
             handleDelete(node.id);
           }}
         >
-          🗑 Delete
+          🗑
         </button>
       </div>
 
@@ -258,10 +273,49 @@ const App = () => {
     },
   ]);
 
+  // ➕ Add File
+  const addFile = () => {
+    const name = prompt("Enter file name:");
+    if (!name) return;
+    setTreeData((prev) => {
+      const newTree = [...prev];
+      newTree[0].children.push({
+        id: Date.now().toString(),
+        label: name,
+        type: "file",
+      });
+      return newTree;
+    });
+  };
+
+  // 📁 Add Folder
+  const addFolder = () => {
+    const name = prompt("Enter folder name:");
+    if (!name) return;
+    setTreeData((prev) => {
+      const newTree = [...prev];
+      newTree[0].children.push({
+        id: Date.now().toString(),
+        label: name,
+        type: "folder",
+        children: [],
+      });
+      return newTree;
+    });
+  };
+
   return (
     <div style={styles.treeContainer}>
       <div style={styles.treeWrapper}>
         <h1 style={styles.header}>📂 My Documents</h1>
+
+        {/* ➕ Toolbar */}
+        <div style={styles.toolbar}>
+          <button style={styles.button} onClick={addFile}>➕ Add File</button>
+          <button style={styles.button} onClick={addFolder}>📁 Add Folder</button>
+        </div>
+
+        {/* Tree Rendering */}
         {treeData.map((node) => (
           <TreeNode
             key={node.id}
