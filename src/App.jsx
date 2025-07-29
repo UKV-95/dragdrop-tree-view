@@ -53,6 +53,7 @@ const styles = {
   nodeDragging: {
     opacity: 0.5,
   },
+  nodeDragging: { opacity: 0.5 },
   nodeDropping: {
     backgroundColor: "#e1f0ff",
     boxShadow: "inset 0 0 0 2px #3399ff",
@@ -93,7 +94,7 @@ const TreeNode = ({ node, treeData, setTreeData }) => {
     for (const n of nodes) {
       if (n.id === id) return n;
       if (n.children) {
-        const found = findNode(n.children, id);
+        const found = findNodeAndParent(n.children, id, n);
         if (found) return found;
       }
     }
@@ -208,7 +209,7 @@ const App = () => {
     },
   ]);
 
-  // ➕ Add file
+  //  Add file
   const addFile = () => {
     const name = prompt("Enter file name:");
     if (!name) return;
